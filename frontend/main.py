@@ -23,9 +23,7 @@ with st.sidebar:
     st.markdown("""
     1. Select input type: **Text description** or **Image upload**.  
     2. Provide the item description or upload a photo.  
-    3. Click '**Classify**' to get the recommended recycling category.  
-
-    _Note_: This is a prototype using the GPT-4o-mini model.
+    3. Click '**Classify**' to get the recommended recycling category.
     """)
 
 # ---------------------------
@@ -49,8 +47,6 @@ if input_method == "Text Description":
     user_text = st.text_input("Type here:")
     if st.button("Classify"):
         if user_text.strip() != "":
-            ####################################
-            # TODO: Call backend API for text classification
             try:
                 response = requests.post(
                     "http://localhost:8000/classify_text",
@@ -58,11 +54,8 @@ if input_method == "Text Description":
                 )
                 result = response.json()
                 st.success(result.get("response", "No response from backend"))
-                # st.success(f"Category: {result.get('category', 'Unknown')}")
-                # st.info(f"Explanation: {result.get('explanation', '')}")
             except Exception as e:
                 st.error(f"Error contacting backend: {e}")
-            ####################################
         else:
             st.warning("Please type something!")
 
@@ -82,8 +75,6 @@ elif input_method == "Image Upload":
                 img.save(img_bytes, format=img.format)
                 img_bytes = img_bytes.getvalue()
                 
-                ######################################
-                # TODO: Call backend API for image classification
                 response = requests.post(
                     "http://localhost:8000/classify_image",
                     files={"file": ("image", img_bytes, "image/jpeg")}
@@ -93,4 +84,3 @@ elif input_method == "Image Upload":
                 st.info(f"Explanation: {result.get('explanation', '')}")
             except Exception as e:
                 st.error(f"Error contacting backend: {e}")
-                #######################################

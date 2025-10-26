@@ -4,9 +4,10 @@
 Smart Recycle Bot is an AI-powered assistant that helps users classify waste correctly. Users can either describe the item in text or upload a picture. The AI then provides guidance on the proper disposal category. 
 
 ## Technical Description
-- AI: OpenAI GPT-4o-mini (text + image classification) (From Azure OpenAI)
+- AI: OpenAI GPT-4o-mini and text-embedding-3-small (From Azure OpenAI)
 - Backend: FastAPI with endpoints for text and image input.  
 - Frontend: Streamlit for web interface.  
+- Qdrant: Vector database
 - Containerization: Docker + Kubernetes
 
 ## Setup steps (running locally before Docker + K8s)
@@ -29,3 +30,19 @@ Smart Recycle Bot is an AI-powered assistant that helps users classify waste cor
     - allow_methods=["*"] → allow all HTTP methods (GET, POST, etc.)
     - allow_headers=["*"] → allow all headers
 - A Pydantic model is a way in FastAPI (and other Python apps) to define the expected structure of input data (and output data). It ensures that the data you receive is valid and automatically parses JSON into Python objects.
+
+## How to check data in Qdrant collection:
+- Open Git bash
+```
+bash
+ curl -X POST "http://localhost:6333/collections/abfall_docs/points/scroll" \
+  -H "Content-Type: application/json" \
+  -d '{"limit": 3, "with_payload": true, "with_vector": false}'
+```
+- Or check structure inside running Qdrant container: `docker exec -it qdrant bash`
+
+## General idea
+1) Retrieve top hits from Qdrant.
+2) Format them nicely using format_hits — this ensures consistent content structure, line breaks, sources, etc.
+3) Feed the formatted text + user question to GPT-4o-mini to generate a natural, readable answer.
+4) Return the GPT output to the user.
