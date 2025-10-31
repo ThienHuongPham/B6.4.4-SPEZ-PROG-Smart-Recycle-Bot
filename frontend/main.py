@@ -1,7 +1,11 @@
+import os
 import streamlit as st
 import requests
 from PIL import Image
 import io
+import os
+
+BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000")
 
 # ---------------------------
 # App Configuration
@@ -22,7 +26,7 @@ with st.sidebar:
     st.header("How to use")
     st.markdown("""
     1. Select input type: **Text description** or **Image upload**.  
-    2. Provide the item description or upload a photo.  
+    2. Provide the item name or upload a photo.  
     3. Click '**Classify**' to get the recommended recycling category.
     """)
 
@@ -40,8 +44,8 @@ input_method = st.radio(
 if input_method == "Text Description":
     st.subheader("Describe your item")
     st.info(
-        "Please provide item name or a description of the item you want to recycle. "
-        "You may also include any additional details or questions",
+        "Please provide item name of the item you want to recycle. "
+        "Please do not include any additional details or descriptions.",
         icon="💡"
     )
     user_text = st.text_input("Type here:")
@@ -49,7 +53,7 @@ if input_method == "Text Description":
         if user_text.strip() != "":
             try:
                 response = requests.post(
-                    "http://localhost:8000/classify_text",
+                    f"{BACKEND_URL}/classify_text",
                     json={"text": user_text}
                 )
                 result = response.json()
@@ -67,7 +71,7 @@ elif input_method == "Image Upload":
     uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
     if uploaded_file is not None:
         img = Image.open(uploaded_file)
-        st.image(img, caption="Uploaded image", use_column_width=True)
+        st.image(img, caption="Uploaded image", use_container_width=True)
 
         if st.button("Classify Image"):
             try:
@@ -76,11 +80,11 @@ elif input_method == "Image Upload":
                 img_bytes = img_bytes.getvalue()
                 
                 response = requests.post(
-                    "http://localhost:8000/classify_image",
+                    f"{BACKEND_URL}/classify_image",
                     files={"file": ("image", img_bytes, "image/jpeg")}
                 )
                 result = response.json()
-                st.success(f"Category: {result.get('category', 'Unknown')}")
-                st.info(f"Explanation: {result.get('explanation', '')}")
+                st.success(f"**The detected item from the image is:** {result.get('detected_item', 'No response from backend')}")
+                st.success(f"**Instructions for disposal:** {result.get('instruction', 'No response from backend')}")
             except Exception as e:
                 st.error(f"Error contacting backend: {e}")

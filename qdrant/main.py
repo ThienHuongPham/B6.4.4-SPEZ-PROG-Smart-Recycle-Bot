@@ -1,5 +1,5 @@
 from openai import OpenAI
-import requests, json
+import requests, json, time
 import pandas as pd
 import os
 
@@ -7,13 +7,24 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 AZURE_OPENAI_API_ENDPOINT = os.environ.get("AZURE_OPENAI_API_ENDPOINT")
 DEPLOYMENT_NAME = "text-embedding-3-small-htw-test"
 
-QDRANT_URL = "http://localhost:6333"
+QDRANT_URL = os.environ.get("QDRANT_URL", "http://localhost:6333")
 COLLECTION = "abfall_docs"
 
 client = OpenAI(
     base_url=f"{AZURE_OPENAI_API_ENDPOINT}",
     api_key=OPENAI_API_KEY
 )
+
+# Wait for Qdrant to be ready
+while True:
+    try:
+        r = requests.get(f"{QDRANT_URL}/collections")
+        if r.status_code == 200:
+            break
+    except:
+        pass
+    print("Waiting for Qdrant...")
+    time.sleep(2)
 
 # Delete existing collection if any
 requests.delete(f"{QDRANT_URL}/collections/{COLLECTION}")

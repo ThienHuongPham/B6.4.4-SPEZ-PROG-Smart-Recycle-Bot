@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  # ---------------- Qdrant ----------------
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"  # REST
+      - "6334:6334"  # gRPC
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    restart: unless-stopped
+
+  # ---------------- Qdrant collection ----------------
+  qdrant-init:
+    build:
+      context: ./qdrant
+      dockerfile: Dockerfile
+    container_name: qdrant-init
+    volumes:
+      - ./data:/app/data
+    environment:
+      OPENAI_API_KEY: "F4zslf8MlYcfCbwGXINHf4IS9AQQv0Zc77i0l8DkOsbTUUXWgH6nJQQJ99BJACHYHv6XJ3w3AAAAACOGcBEW"
+      AZURE_OPENAI_API_ENDPOINT: "https://thien-mgl8on6m-eastus2.cognitiveservices.azure.com/openai/v1/"
+      QDRANT_URL: "http://qdrant:6333"
+    depends_on:
+      - qdrant
+    restart: "no"
+
+  # ---------------- Backend ----------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: smart-recycle-backend
+    ports:
+      - "8000:8000"
+    environment:
+      OPENAI_API_KEY: "F4zslf8MlYcfCbwGXINHf4IS9AQQv0Zc77i0l8DkOsbTUUXWgH6nJQQJ99BJACHYHv6XJ3w3AAAAACOGcBEW"
+      AZURE_OPENAI_API_ENDPOINT: "https://thien-mgl8on6m-eastus2.cognitiveservices.azure.com/openai/v1/"
+      QDRANT_URL: "http://qdrant:6333"
+    depends_on:
+      - qdrant
+
+  # ---------------- Frontend ----------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: smart-recycle-frontend
+    ports:
+      - "8501:8501"
+    environment:
+      BACKEND_URL: "http://backend:8000"
+    depends_on:
+      - backend
+
+volumes:
+  qdrant_storage:

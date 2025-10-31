@@ -4,6 +4,7 @@ from openai import OpenAI
 from pydantic import BaseModel
 from textwrap import fill
 
+import base64
 import os
 import json
 import requests
@@ -15,7 +16,7 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 AZURE_OPENAI_API_ENDPOINT = os.environ.get("AZURE_OPENAI_API_ENDPOINT")
 GPT_MODEL = "gpt-4o-mini-htw-test"
 EMBED_MODEL = "text-embedding-3-small-htw-test"
-QDRANT_URL = "http://localhost:6333"
+QDRANT_URL = os.environ.get("QDRANT_URL", "http://localhost:6333")
 COLLECTION = "abfall_docs"
 WRAP_COLS = 100
 
@@ -132,37 +133,47 @@ async def classify_text(message_input: MessageInput):
     except Exception as e:
         return {"response": f"Error: {str(e)}"}
 
+@app.post("/classify_image")
+async def classify_image(file: UploadFile = File(...)):
+    try:
+        image_bytes = await file.read()
+        base64_image = base64.b64encode(image_bytes).decode("utf-8")
+        system_prompt = (
+            "You are a vision assistant that identifies waste items in images. "
+            "Your response must be a single word that best describes the item. "
+            "Do not include any explanation, punctuation, or extra words. Prefer German terms."
+        )
+
+        user_prompt = [
+            {"type": "text", "text": "Was ist auf diesem Bild zu sehen?"},
+            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
+        ]
+
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
+
+        resp = client.chat.completions.create(
+            model=GPT_MODEL,
+            messages=messages,
+            temperature=0
+        )
+        
+        resp_text = resp.choices[0].message.content.strip()
+
+        query_vector = embed_text(resp_text)
+        hits = qdrant_search(query_vector, top_k=5)
+        response_text = summarize_hits(hits, resp_text)
+
+        return {"detected_item": resp_text, "instruction": response_text}
+
+    except Exception as e:
+        return {"response": f"Error: {str(e)}"}
+
+
+
 # ---------------- Run App ----------------
 # Ensures this code only runs if the script is executed directly (not imported).
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
-
-@app.post("/classify_image")
-async def classify_image(file: UploadFile = File(...)):
-    try:
-        # Read image bytes
-        img_bytes = await file.read()
-        
-        # Step 1: Use OpenAI to generate a description of the image
-        vision_resp = client.chat.completions.create(
-            model=GPT_MODEL,
-            messages=[
-                {"role": "system", "content": "You are an assistant that describes objects in images in a single word."},
-                {"role": "user", "content": "Describe this image as a single object or product name."}
-            ],
-            temperature=0
-        )
-        # For simplicity, we assume GPT returns a product name like "Zahnbürste"
-        description = vision_resp.choices[0].message.content.strip()
-        
-        # Step 2: Embed description and search Qdrant
-        vector = embed_text(description)
-        hits = qdrant_search(vector)
-        if not hits or hits[0].get("score", 0.0) < MIN_SCORE:
-            return {"category": "Unknown", "explanation": "No matching item found."}
-        
-        return format_hit(hits[0])
-    
-    except Exception as e:
-        return {"category": "Unknown", "explanation": f"Error: {str(e)}"}
