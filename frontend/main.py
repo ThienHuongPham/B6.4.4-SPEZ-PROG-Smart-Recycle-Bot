@@ -25,8 +25,8 @@ st.info("Classify your waste! Choose input method below.", icon="🌱")
 with st.sidebar:
     st.header("How to use")
     st.markdown("""
-    1. Select input type: **Text description** or **Image upload**.  
-    2. Provide the item name or upload a photo.  
+    1. Select input type: **Text** or **Image**.  
+    2. Ask about an item with text or upload a photo.  
     3. Click '**Classify**' to get the recommended recycling category.
     """)
 
@@ -35,19 +35,14 @@ with st.sidebar:
 # ---------------------------
 input_method = st.radio(
     "Choose input method:",
-    ("Text Description", "Image Upload")
+    ("Text", "Image")
 )
 
 # ---------------------------
 # Text Input Section
 # ---------------------------
-if input_method == "Text Description":
-    st.subheader("Describe your item")
-    st.info(
-        "Please provide item name of the item you want to recycle. "
-        "Please do not include any additional details or descriptions.",
-        icon="💡"
-    )
+if input_method == "Text":
+    st.subheader("Ask about an item")
     user_text = st.text_input("Type here:")
     if st.button("Classify"):
         if user_text.strip() != "":
@@ -66,7 +61,7 @@ if input_method == "Text Description":
 # ---------------------------
 # Image Upload Section
 # ---------------------------
-elif input_method == "Image Upload":
+elif input_method == "Image":
     st.subheader("Upload a photo")
     uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
     if uploaded_file is not None:

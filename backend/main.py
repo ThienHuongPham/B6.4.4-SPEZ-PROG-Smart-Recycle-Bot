@@ -85,10 +85,12 @@ def format_hits(
 
 def summarize_hits(hits, user_question):
     """Always use GPT to generate human-like answer based on hits."""
-    formatted_text = format_hits(hits, min_score=0.3)
+    formatted_text = format_hits(hits, min_score=0.5)
+    print(formatted_text)
     
     system_prompt = (
         "You are a helpful assistant that ONLY answers based on the provided information. "
+        "If there is information about detailed instructions for recycling, always include that in your answer. "
         "Do not make up any content. Provide concise, human-readable answers in German."
     )
 
@@ -105,8 +107,54 @@ def summarize_hits(hits, user_question):
         )
         return resp.choices[0].message.content.strip()
     except Exception as e:
-        # fallback to formatted hits if GPT fails
         return formatted_text
+
+
+def extract_item_from_sentence(user_input: str) -> str:
+    prompt = (
+        "The following input can be a sentence. If that is the case, extract the main waste item mentioned. "
+        "Respond with a single word only. "
+        "Example:\n"
+        "Input: 'Wie entsorge ich eine alte Matratze?'\nOutput: 'Matratze'\n\n"
+        "Otherwise, if the input is already a single word, just return it as is.\n"
+        f"Input: '{user_input}'"
+    )
+
+    resp = client.chat.completions.create(
+        model=GPT_MODEL,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0
+    )
+
+    return resp.choices[0].message.content.strip()
+
+
+def extract_item_from_image(image_bytes: bytes) -> str:
+    base64_image = base64.b64encode(image_bytes).decode("utf-8")
+    system_prompt = (
+        "You are a vision assistant that identifies waste items in images. "
+        "Your response must be a single word that best describes the item. "
+        "Do not include any explanation, punctuation, or extra words. Prefer German terms."
+    )
+
+    user_prompt = [
+        {"type": "text", "text": "Was ist auf diesem Bild zu sehen?"},
+        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
+    ]
+
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt}
+    ]
+
+    resp = client.chat.completions.create(
+        model=GPT_MODEL,
+        messages=messages,
+        temperature=0
+    )
+
+    return resp.choices[0].message.content.strip()
+
 
 # ---------------- API Endpoints ----------------
 @app.get("/")
@@ -116,9 +164,10 @@ async def root():
 @app.post("/classify_text")
 async def classify_text(message_input: MessageInput):
     try:
-        query_vector = embed_text(message_input.text)
+        item = extract_item_from_sentence(message_input.text)
+        query_vector = embed_text(item)
         hits = qdrant_search(query_vector, top_k=5)
-        response_text = summarize_hits(hits, message_input.text)
+        response_text = summarize_hits(hits, item)
         return {"response": response_text}
     except Exception as e:
         return {"response": f"Error: {str(e)}"}
@@ -127,37 +176,11 @@ async def classify_text(message_input: MessageInput):
 async def classify_image(file: UploadFile = File(...)):
     try:
         image_bytes = await file.read()
-        base64_image = base64.b64encode(image_bytes).decode("utf-8")
-        system_prompt = (
-            "You are a vision assistant that identifies waste items in images. "
-            "Your response must be a single word that best describes the item. "
-            "Do not include any explanation, punctuation, or extra words. Prefer German terms."
-        )
-
-        user_prompt = [
-            {"type": "text", "text": "Was ist auf diesem Bild zu sehen?"},
-            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
-        ]
-
-        messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
-        ]
-
-        resp = client.chat.completions.create(
-            model=GPT_MODEL,
-            messages=messages,
-            temperature=0
-        )
-        
-        resp_text = resp.choices[0].message.content.strip()
-
+        resp_text = extract_item_from_image(image_bytes)
         query_vector = embed_text(resp_text)
         hits = qdrant_search(query_vector, top_k=5)
         response_text = summarize_hits(hits, resp_text)
-
         return {"detected_item": resp_text, "instruction": response_text}
-
     except Exception as e:
         return {"response": f"Error: {str(e)}"}
 
