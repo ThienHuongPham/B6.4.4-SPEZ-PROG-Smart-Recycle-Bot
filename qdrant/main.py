@@ -42,7 +42,7 @@ df = pd.read_csv('data/out/abfall_abc_cleaned.csv')
 points = []
 for i, row in df.iterrows():
     text = row['Name']  # Only embed Name
-    vec = client.embeddings.create(model=DEPLOYMENT_NAME, input=text).data[0].embedding
+    vec = embed(text)
     points.append({
         "id": i,
         "vector": vec,

@@ -56,15 +56,6 @@ def qdrant_search(
     return r.json().get("result", [])
 
 
-def format_hit(hit):
-    """Extract category and explanation from a single Qdrant hit."""
-    payload = hit.get("payload", {})
-    return {
-        "category": payload.get("abfallart", "Unknown"),
-        "explanation": payload.get("hinweis", "")
-    }
-
-
 def format_hits(
     hits,
     min_score: float,
@@ -79,7 +70,7 @@ def format_hits(
 
     lines = []
     for i, hit in enumerate(hits, start=1):
-        payload = hit.get("payload", {}) or {}
+        payload = hit.get("payload", {})
         name = payload.get("name", f"Item {i}")
         abfallart = payload.get("abfallart", "")
         hinweis = payload.get("hinweis", "")
@@ -98,7 +89,6 @@ def summarize_hits(hits, user_question):
     
     system_prompt = (
         "You are a helpful assistant that ONLY answers based on the provided information. "
-        "If the information is insufficient, respond with: 'Ich weiß es nicht basierend auf den verfügbaren Daten.' "
         "Do not make up any content. Provide concise, human-readable answers in German."
     )
 
@@ -170,8 +160,6 @@ async def classify_image(file: UploadFile = File(...)):
 
     except Exception as e:
         return {"response": f"Error: {str(e)}"}
-
-
 
 # ---------------- Run App ----------------
 # Ensures this code only runs if the script is executed directly (not imported).
