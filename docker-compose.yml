@@ -21,8 +21,8 @@ services:
     volumes:
       - ./data:/app/data
     environment:
-      OPENAI_API_KEY: "F4zslf8MlYcfCbwGXINHf4IS9AQQv0Zc77i0l8DkOsbTUUXWgH6nJQQJ99BJACHYHv6XJ3w3AAAAACOGcBEW"
-      AZURE_OPENAI_API_ENDPOINT: "https://thien-mgl8on6m-eastus2.cognitiveservices.azure.com/openai/v1/"
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      AZURE_OPENAI_API_ENDPOINT: ${AZURE_OPENAI_API_ENDPOINT}
       QDRANT_URL: "http://qdrant:6333"
     depends_on:
       - qdrant
@@ -37,9 +37,14 @@ services:
     ports:
       - "8000:8000"
     environment:
-      OPENAI_API_KEY: "F4zslf8MlYcfCbwGXINHf4IS9AQQv0Zc77i0l8DkOsbTUUXWgH6nJQQJ99BJACHYHv6XJ3w3AAAAACOGcBEW"
-      AZURE_OPENAI_API_ENDPOINT: "https://thien-mgl8on6m-eastus2.cognitiveservices.azure.com/openai/v1/"
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      AZURE_OPENAI_API_ENDPOINT: ${AZURE_OPENAI_API_ENDPOINT}
       QDRANT_URL: "http://qdrant:6333"
+      GPT_MODEL: "gpt-4o-mini-htw-test"
+      EMBED_MODEL: "text-embedding-3-small-htw-test"
+      COLLECTION: "abfall_docs"
+      MIN_SCORE: "0.5"
+      TOP_K: "5"
     depends_on:
       - qdrant
 

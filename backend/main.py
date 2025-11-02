@@ -14,10 +14,12 @@ import uvicorn
 # Make sure to set these environment variables in your deployment environment
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 AZURE_OPENAI_API_ENDPOINT = os.environ.get("AZURE_OPENAI_API_ENDPOINT")
-GPT_MODEL = "gpt-4o-mini-htw-test"
-EMBED_MODEL = "text-embedding-3-small-htw-test"
+GPT_MODEL = os.environ.get("GPT_MODEL", "gpt-4o-mini-htw-test")
+EMBED_MODEL = os.environ.get("EMBED_MODEL", "text-embedding-3-small-htw-test")
 QDRANT_URL = os.environ.get("QDRANT_URL", "http://localhost:6333")
-COLLECTION = "abfall_docs"
+MIN_SCORE = float(os.environ.get("MIN_SCORE","0.5"))
+TOP_K = int(os.environ.get("TOP_K","5"))
+COLLECTION = os.environ.get("COLLECTION", "abfall_docs")
 WRAP_COLS = 100
 
 class MessageInput(BaseModel):
@@ -85,7 +87,7 @@ def format_hits(
 
 def summarize_hits(hits, user_question):
     """Always use GPT to generate human-like answer based on hits."""
-    formatted_text = format_hits(hits, min_score=0.5)
+    formatted_text = format_hits(hits, min_score=MIN_SCORE)
     print(formatted_text)
     
     system_prompt = (
@@ -166,7 +168,7 @@ async def classify_text(message_input: MessageInput):
     try:
         item = extract_item_from_sentence(message_input.text)
         query_vector = embed_text(item)
-        hits = qdrant_search(query_vector, top_k=5)
+        hits = qdrant_search(query_vector, top_k=TOP_K)
         response_text = summarize_hits(hits, item)
         return {"response": response_text}
     except Exception as e:
@@ -178,7 +180,7 @@ async def classify_image(file: UploadFile = File(...)):
         image_bytes = await file.read()
         resp_text = extract_item_from_image(image_bytes)
         query_vector = embed_text(resp_text)
-        hits = qdrant_search(query_vector, top_k=5)
+        hits = qdrant_search(query_vector, top_k=TOP_K)
         response_text = summarize_hits(hits, resp_text)
         return {"detected_item": resp_text, "instruction": response_text}
     except Exception as e:
