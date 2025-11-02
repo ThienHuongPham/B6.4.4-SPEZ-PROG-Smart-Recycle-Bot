@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-qdrant
+  namespace: smart-recycle-dev
+spec:
+  replicas: 1
+  selector: # Selects which Pods belong to this Deployment. Must match the labels in the template below
+    matchLabels:
+      app: qdrant-pod
+  template:
+    metadata:
+      labels:
+        app: qdrant-pod
+    spec:
+      containers:
+      - name: qdrant
+        image: qdrant/qdrant:latest
+        ports:
+        - containerPort: 6333
+        - containerPort: 6334
+        volumeMounts:
+        - name: qdrant-storage
+          mountPath: /qdrant/storage
+      volumes:
+      - name: qdrant-storage
+        emptyDir: {} # create a temporary volume that is empty when the Pod starts

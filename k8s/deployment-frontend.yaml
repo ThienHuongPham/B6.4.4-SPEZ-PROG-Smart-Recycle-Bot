@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-frontend
+  namespace: smart-recycle-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-pod
+  template:
+    metadata:
+      labels:
+        app: frontend-pod
+    spec:
+      containers:
+      - name: frontend
+        image: frontend-image:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8501
+        envFrom:
+          - configMapRef:
+              name: smart-recycle-config
+          - secretRef:
+              name: smart-recycle-secrets
+        livenessProbe:
+          httpGet:
+            path: /  # Streamlit has no health endpoint, so just root
+            port: 8501
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8501
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3

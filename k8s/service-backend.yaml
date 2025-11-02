@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-backend
+  namespace: smart-recycle-dev
+spec:
+  selector:
+    app: backend-pod
+  ports:
+    - name: http
+      port: 8000        # Cluster-internal port
+      targetPort: 8000  # Pod container port
+      nodePort: 30080   # Port you can access from outside the cluster
+  type: NodePort

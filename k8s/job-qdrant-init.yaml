@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-qdrant-init
+  namespace: smart-recycle-dev
+spec:
+  template:
+    metadata:
+      name: qdrant-init
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: qdrant-init
+          image: qdrant-init-image:latest
+          imagePullPolicy: Never
+          command: ["python", "main.py"]
+          envFrom:
+            - configMapRef:
+                name: smart-recycle-config
+            - secretRef:
+                name: smart-recycle-secrets

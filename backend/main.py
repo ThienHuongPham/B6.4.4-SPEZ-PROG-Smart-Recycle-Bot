@@ -18,7 +18,7 @@ GPT_MODEL = os.environ.get("GPT_MODEL", "gpt-4o-mini-htw-test")
 EMBED_MODEL = os.environ.get("EMBED_MODEL", "text-embedding-3-small-htw-test")
 QDRANT_URL = os.environ.get("QDRANT_URL", "http://localhost:6333")
 MIN_SCORE = float(os.environ.get("MIN_SCORE","0.5"))
-TOP_K = int(os.environ.get("TOP_K","5"))
+TOP_K = int(os.environ.get("TOP_K","1"))
 COLLECTION = os.environ.get("COLLECTION", "abfall_docs")
 WRAP_COLS = 100
 
@@ -163,12 +163,17 @@ def extract_item_from_image(image_bytes: bytes) -> str:
 async def root():
     return {"message": "Smart Recycle Bot is running"}
 
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
 @app.post("/classify_text")
 async def classify_text(message_input: MessageInput):
     try:
         item = extract_item_from_sentence(message_input.text)
         query_vector = embed_text(item)
         hits = qdrant_search(query_vector, top_k=TOP_K)
+        print(hits)
         response_text = summarize_hits(hits, item)
         return {"response": response_text}
     except Exception as e:
@@ -181,6 +186,7 @@ async def classify_image(file: UploadFile = File(...)):
         resp_text = extract_item_from_image(image_bytes)
         query_vector = embed_text(resp_text)
         hits = qdrant_search(query_vector, top_k=TOP_K)
+        print(hits)
         response_text = summarize_hits(hits, resp_text)
         return {"detected_item": resp_text, "instruction": response_text}
     except Exception as e:

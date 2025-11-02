@@ -17,5 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the script
 COPY main.py .
 
+# Copy the CSV into the image
+COPY data/out/abfall_abc_cleaned.csv ./data/out/abfall_abc_cleaned.csv
+
 # Command to run the script
 CMD ["python", "main.py"]

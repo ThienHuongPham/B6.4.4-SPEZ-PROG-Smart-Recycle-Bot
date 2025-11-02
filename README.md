@@ -1,48 +1,52 @@
 # Smart Recycle Bot Project
 
-## Summary
-Smart Recycle Bot is an AI-powered assistant that helps users classify waste correctly. Users can either describe the item in text or upload a picture. The AI then provides guidance on the proper disposal category. 
+## 🚀 Teil 1: Abgabe-Template - Inhaltliche Abgabe (40 Punkte)
 
-## Technical Description
-- AI: OpenAI GPT-4o-mini and text-embedding-3-small (From Azure OpenAI)
-- Backend: FastAPI with endpoints for text and image input.  
-- Frontend: Streamlit for web interface.  
-- Qdrant: Vector database
-- Containerization: Docker + Kubernetes
+Bitte beantworten Sie die folgenden Abschnitte in vollständigen Sätzen.
+Jede Antwort 7–10 Zeilen (nicht nur Stichpunkte, sondern Sätze).
+README.md soll am Ende max. 220 Zeilen haben.
 
-## Setup steps (running locally before Docker + K8s)
-- Download Python 3.11
-- Create .venv in the highest level of the project folder
-- Save credentials to environment variables
-- Run BE: `fastapi dev backend/main.py` and access at http://localhost:8000/
-- Run FE: `streamlit run frontend/main.py` and access at http://localhost:8501/
+1. Executive Summary – Kurze Zusammenfassung des Projekts.  
+2. Ziele des Projekts – Welche Ziele verfolgt Ihr Projekt, welches Problem wird gelöst?  
+3. Anwendung und Nutzung – Wie wird die Lösung verwendet, wer sind die Hauptnutzer:innen?  
+   - Hier bitte auch den Link zum Code-Repository und zum Pitch (Audio bevorzugt, alternativ Video) einfügen.  
+4. Entwicklungsstand – Idee, Proof of Concept, Prototyp oder Einsatzbereit?  
+5. Projektdetails – Welche Kernfunktionen oder Besonderheiten bietet Ihr Projekt?  
+6. Innovation – Was ist neu und besonders innovativ?  
+7. Wirkung (Impact) – Welchen konkreten Nutzen bringt Ihr Projekt?  
+8. Technische Exzellenz – Welche Technologien, Daten oder Algorithmen werden genutzt?  
+9. Ethik, Transparenz und Inklusion – Wie stellen Sie Fairness, Transparenz und Sicherheit sicher?  
+10. Zukunftsvision – Wie könnte das Projekt in 5–10 Jahren aussehen?  
 
-### How to manage packages: 
-- `.venv\Scripts\activate`: activate the virtual env
-- `pip install`: install new packages
-- `pip freeze > requirements.txt`: create or update packages requirement based on .venv
-- `deactivate`: Returns to the system Python
+## 🚀 Teil 2: Technische Umsetzung (60 Punkte)
 
-## Notes:
-- Swagger UI is FastAPI’s auto-generated API docs at http://localhost:8000/docs
-- CORS middleware (Cross-Origin Resource Sharing): Web browsers restrict frontend JavaScript from calling a backend on a different origin by default. Here Streamlit runs on localhost:8501 and backend runs on localhost:8000. CORS middleware allows FE to call the backend API without being blocked by the browser.
-    - "*" allows any origin to call BE. In production you should restrict it to FE domain for security (Here: localhost).
-    - allow_methods=["*"] → allow all HTTP methods (GET, POST, etc.)
-    - allow_headers=["*"] → allow all headers
-- A Pydantic model is a way in FastAPI (and other Python apps) to define the expected structure of input data (and output data). It ensures that the data you receive is valid and automatically parses JSON into Python objects.
+1. **AI-Komponente (25 Punkte)**  
+   - Mindestens eine Funktion (z. B. Zusammenfassung, Empfehlung, Chat).  
+   - Nutzung einer API (z. B. Deepseek, OpenAI) erlaubt. (Key"s werden vom Dozent bereitgestellt) 
+   - Antworten sollen verlässlich sein: lieber „weiß ich nicht“ als falsche Antworten. Wenig wie möglich Halluzinationen der AI.  
+   - Für alle Projekte dürfen **Dummy-Daten oder simulierte Daten** verwendet werden. Wichtig ist, dass die Funktionsweise der AI **klar nachvollziehbar** gezeigt wird – auch ohne Live-Daten.
 
-## How to check data in Qdrant collection:
-- Open Git bash
-```
-bash
- curl -X POST "http://localhost:6333/collections/abfall_docs/points/scroll" \
-  -H "Content-Type: application/json" \
-  -d '{"limit": 3, "with_payload": true, "with_vector": false}'
-```
-- Or check structure inside running Qdrant container: `docker exec -it qdrant bash`
+2. **Docker (20 Punkte)**  
+   - App containerisieren (Dockerfile).  
+   - Lokal startbar mit `docker compose up -d`.  
 
-## General idea
-1) Retrieve top hits from Qdrant.
-2) Format them nicely using format_hits — this ensures consistent content structure, line breaks, sources, etc.
-3) Feed the formatted text + user question to GPT-4o-mini to generate a natural, readable answer.
-4) Return the GPT output to the user.
+3. **Kubernetes (10 Punkte)** 
+   - lokal, kind
+   - Kubernetes-Manifeste im Ordner `k8s/` mit mindestens 2 Services (z. B. api ).  
+   - Mindestens ein Deployment pro Service.  
+   - Nur API-Endpunkte, keine grafische Oberfläche notwendig. 
+
+4. **Pitch (5 Punkte)**  
+   - Audio bevorzugt, alternativ Video, max. 25 MB
+   - Dauer: 1–3 Minuten.  
+   - Kann im Code-Repository enthalten sein.   
+
+## 🚀 To-do-Liste  
+
+1. Thema wählen (aus den Kategorien).  
+2. AI-Komponente bauen.  
+3. App in Docker packen (Dockerfile).  
+4. k8s Cluster in Docker starten.  
+5. Services in Kubernetes deployen (Ordner `k8s/`).  
+6. Pitch aufnehmen (Audio bevorzugt, alternativ Video, 1–3 Minuten).  
+7. Finale Kontrolle: README.md (10 Fragen) und nicht mehr als 220 Zeilen, Code, Kubernetes, Pitch vollständig. Per E-mail an alkurdiz@htw-berlin.de bis 23:59:59 Uhr am 22.11.2025!

@@ -1,0 +1,17 @@
+# This Service exposes your Qdrant Pods internally so other components (like the backend) can communicate with it.
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-qdrant
+  namespace: smart-recycle-dev
+spec:
+  selector:
+    app: qdrant-pod
+  ports:
+  - name: http
+    port: 6333
+    targetPort: 6333
+  - name: grpc
+    port: 6334
+    targetPort: 6334
+  type: ClusterIP
