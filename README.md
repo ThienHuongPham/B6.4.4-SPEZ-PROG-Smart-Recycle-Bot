@@ -1,6 +1,7 @@
 # ♻️ Smart Recycle Bot
 
 Link zum Code-Repository: https://github.com/ThienHuongPham/B6.4.4-SPEZ-PROG-Smart-Recycle-Bot.git
+
 Pitch: [pitch_audio.mp3](pitch_assets/pitch_audio.mp3)
 
 ## 🚀 Teil 1: Abgabe-Template - Inhaltliche Abgabe (40 Punkte)
