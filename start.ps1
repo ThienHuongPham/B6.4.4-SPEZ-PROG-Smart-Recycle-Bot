@@ -4,8 +4,8 @@ $ErrorActionPreference = "Stop"
 # -----------------------
 # 1) Set environment variables
 # -----------------------
-$env:OPENAI_API_KEY="F4zslf8MlYcfCbwGXINHf4IS9AQQv0Zc77i0l8DkOsbTUUXWgH6nJQQJ99BJACHYHv6XJ3w3AAAAACOGcBEW" # This is a placeholder
-$env:AZURE_OPENAI_API_ENDPOINT="https://thien-mgl8on6m-eastus2.cognitiveservices.azure.com/openai/v1/" # This is a placeholder
+$env:OPENAI_API_KEY="" # This is a placeholder "F4zslf8MlYcfCbwGXINHf4IS9AQQv0Zc77i0l8DkOsbTUUXWgH6nJQQJ99BJACHYHv6XJ3w3AAAAACOGcBEW"
+$env:AZURE_OPENAI_API_ENDPOINT="" # This is a placeholder "https://thien-mgl8on6m-eastus2.cognitiveservices.azure.com/openai/v1/"
 
 # -----------------------
 # 2) Apply Namespace
@@ -51,7 +51,7 @@ do {
         Write-Host "Qdrant-init job completed successfully." -ForegroundColor Green
         break
     }
-    Start-Sleep -Seconds 60
+    Start-Sleep -Seconds 120
     $retry++
     Write-Host "Waiting for Qdrant-init job... ($retry/$maxRetries)"
 } while ($retry -lt $maxRetries)

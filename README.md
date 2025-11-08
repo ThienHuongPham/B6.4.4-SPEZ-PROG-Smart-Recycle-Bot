@@ -1,4 +1,6 @@
-# Smart Recycle Bot Project
+# ♻️ Smart Recycle Bot
+
+Link zum Code-Repository: https://github.com/ThienHuongPham/B6.4.4-SPEZ-PROG-Smart-Recycle-Bot.git
 
 ## 🚀 Teil 1: Abgabe-Template - Inhaltliche Abgabe (40 Punkte)
 
@@ -6,7 +8,7 @@ Bitte beantworten Sie die folgenden Abschnitte in vollständigen Sätzen.
 Jede Antwort 7–10 Zeilen (nicht nur Stichpunkte, sondern Sätze).
 README.md soll am Ende max. 220 Zeilen haben.
 
-1. Executive Summary – Kurze Zusammenfassung des Projekts.
+### 1. Executive Summary – Kurze Zusammenfassung des Projekts.
 Der Smart Recycle Bot ist eine KI-gestützte Anwendung, die Nutzer:innen dabei unterstützt, Abfälle korrekt zu trennen 
 und umweltbewusst zu entsorgen. Nutzer:innen können entweder ein Schlüsselwort eingeben, eine Frage formulieren, die ein
 Abfallobjekt enthält, oder ein Foto hochladen. Das System erkennt automatisch, um welchen Gegenstand es sich handelt, 
@@ -16,7 +18,7 @@ künstlicher Intelligenz und Bilderkennung erleichtert der Smart Recycle Bot den
 Verhalten. Die Lösung kann über eine Webanwendung genutzt werden und ist sowohl für Privathaushalte als auch für 
 Kommunen und Bildungseinrichtungen geeignet.
 
-2. Ziele des Projekts – Welche Ziele verfolgt Ihr Projekt, welches Problem wird gelöst?
+### 2. Ziele des Projekts – Welche Ziele verfolgt Ihr Projekt, welches Problem wird gelöst?
 Mit dem Smart Recycle Bot wollen wir das richtige Mülltrennen einfacher und verständlicher machen. Viele Menschen sind 
 sich oft unsicher, in welche Tonne ein bestimmter Gegenstand gehört – und genau dieses Problem wollen wir lösen. Unser 
 Ziel ist es, eine leicht zugängliche Anwendung zu schaffen, die mithilfe von künstlicher Intelligenz schnell und 
@@ -25,8 +27,7 @@ Bewusstsein für Umweltschutz und Recycling stärken. Langfristig möchten wir d
 entsorgtem Abfall zu verringern und den Recyclingprozess in Städten und Gemeinden zu verbessern. Außerdem soll die 
 Lösung zeigen, wie Technologie den Alltag nachhaltiger gestalten kann.
 
-3. Anwendung und Nutzung – Wie wird die Lösung verwendet, wer sind die Hauptnutzer:innen?  
-   - Hier bitte auch den Link zum Code-Repository und zum Pitch (Audio bevorzugt, alternativ Video) einfügen.  
+### 3. Anwendung und Nutzung – Wie wird die Lösung verwendet, wer sind die Hauptnutzer:innen?  
 Der Smart Recycle Bot wird über eine einfache Weboberfläche genutzt. Nutzer:innen wählt zuerst die Eingabemethode – 
 entweder Text oder Bild. Wenn man sich für die Texteingabe entscheidet, kann man entweder nur den Namen eines 
 Gegenstands eingeben oder eine Frage stellen, die dieses Wort enthält (zum Beispiel: „Wohin gehört eine Glasflasche?“). 
@@ -35,18 +36,17 @@ automatisch, um was es sich handelt. Anschließend zeigt der Bot an, in welche M
 Hauptnutzer:innen sind alle Menschen bzw. Bürger:in, die Recycling verständlicher machen möchten. Die Anwendung 
 funktioniert direkt im Browser und kann auf jedem Gerät genutzt werden.
 
-Link zum Code-Repository: https://github.com/ThienHuongPham/B6.4.4-SPEZ-PROG-Smart-Recycle-Bot.git
-
-4. Entwicklungsstand – Idee, Proof of Concept, Prototyp oder Einsatzbereit?  
+### 4. Entwicklungsstand – Idee, Proof of Concept, Prototyp oder Einsatzbereit?  
 Der Smart Recycle Bot befindet sich aktuell auf dem Stand eines funktionsfähigen Prototyps. Die grundlegenden Funktionen
 – also die Texteingabe, Bilderkennung und die automatische Zuordnung zur passenden Mülltonne – sind bereits umgesetzt 
 und getestet. Nutzer:innen können über die Weboberfläche sowohl Begriffe als auch Fragen eingeben oder ein Bild 
 hochladen, um sofort eine Rückmeldung zu erhalten. Das System liefert verlässliche Ergebnisse für häufig vorkommende 
 Gegenstände und zeigt, dass das Konzept technisch gut funktioniert. In den nächsten Schritten soll die Genauigkeit der 
 Bilderkennung weiter verbessert und die Datenbasis um zusätzliche Abfallarten erweitert werden. Außerdem planen wir, die
-Benutzeroberfläche noch intuitiver zu gestalten und das System langfristig in mobilen Apps nutzbar zu machen.
+Benutzeroberfläche noch intuitiver zu gestalten und das System auf einer öffentlich zugänglichen URL zu deployen,
+sodass es direkt im Web erreichbar ist und ohne lokale Installation genutzt werden kann. Langfristig soll der Smart Recycle Bot auch in mobilen Apps integriert werden, um den Zugang noch einfacher und flexibler zu gestalten.
 
-5. Projektdetails – Welche Kernfunktionen oder Besonderheiten bietet Ihr Projekt?  
+### 5. Projektdetails – Welche Kernfunktionen oder Besonderheiten bietet Ihr Projekt?  
 Der Smart Recycle Bot kombiniert Text- und Bilderkennung, um Nutzer:innen eine einfache Möglichkeit zur Mülltrennung zu 
 bieten. Zu den wichtigsten Funktionen gehören die Texterkennung, bei der das System eingegebene Wörter oder Fragen 
 versteht und das enthaltene Objekt identifiziert, sowie die Bilderkennung, die hochgeladene Fotos analysiert und den 
@@ -55,7 +55,7 @@ oder Plastik – die richtige ist. Das Design ist bewusst übersichtlich und int
 Vorwissen sie problemlos nutzen können. Zusätzlich kann der Bot kontinuierlich mit neuen Daten trainiert werden, um 
 seine Erkennungsrate zu verbessern und immer genauer zu werden.
 
-6. Innovation – Was ist neu und besonders innovativ?  
+### 6. Innovation – Was ist neu und besonders innovativ?  
 Der Smart Recycle Bot ist innovativ, weil er moderne KI-Technologien nutzt, um ein alltägliches, aber oft nerviges 
 Problem zu lösen – die richtige Mülltrennung. Statt lange zu überlegen oder im Internet zu suchen, reicht ein kurzes 
 Wort, eine einfache Frage oder ein Foto, um sofort die richtige Antwort zu bekommen. Besonders neu ist die Kombination 
@@ -64,7 +64,7 @@ Recycling digital, interaktiv und leicht zugänglich gemacht. Außerdem lernt de
 seine Vorschläge immer weiter verbessern. Die Verbindung von Nachhaltigkeit, Benutzerfreundlichkeit und künstlicher 
 Intelligenz macht den Smart Recycle Bot zu einer Lösung, die nicht nur praktisch, sondernauch zukunftsweisend ist.
 
-7. Wirkung (Impact) – Welchen konkreten Nutzen bringt Ihr Projekt?
+### 7. Wirkung (Impact) – Welchen konkreten Nutzen bringt Ihr Projekt?
 Der Smart Recycle Bot leistet einen direkten Beitrag zu mehr Nachhaltigkeit und Umweltbewusstsein im Alltag. Viele 
 Menschen möchten Müll richtig trennen, wissen aber oft nicht genau, was wohin gehört – zum Beispiel werden Pizzakartons
 mit Fettresten häufig fälschlicherweise ins Altpapier geworfen, obwohl sie eigentlich in den Restmüll gehören. Genau 
@@ -75,18 +75,10 @@ Außerdem kann der Bot in Schulen oder Bildungseinrichtungen eingesetzt werden, 
 zu vermitteln. So fördert der Smart Recycle Bot nicht nur Wissen, sondern auch ein bewussteres Verhalten gegenüber 
 Ressourcen und unserer Umwelt.
 
-8. Technische Exzellenz – Welche Technologien, Daten oder Algorithmen werden genutzt?
-Der Smart Recycle Bot ist als moderne, containerisierte Webanwendung aufgebaut und nutzt aktuelle KI- und 
-Cloud-Technologien. Das System besteht aus einem Frontend (Streamlit) für die Benutzeroberfläche und 
-einem Backend (FastAPI) für die Verarbeitung von Text- und Bildanfragen. Beide Komponenten werden mithilfe von Docker 
-containerisiert und über Kubernetes (k8s) orchestriert, was eine einfache Skalierung und Wartung ermöglicht. Für die 
-semantische Suche und Datenspeicherung wird die Vektordatenbank Qdrant verwendet, die mithilfe von OpenAI-Embeddings 
-gespeicherte Objekte schnell und präzise findet. Das Backend kommuniziert mit Azure OpenAI, um sowohl 
-Textverständnis (NLP) als auch Bilderkennung (Vision Models) zu ermöglichen. Die gesamte Anwendung ist modular aufgebaut,
-sauber in Services getrennt und über REST-APIs verbunden – ein Ansatz, der technische Stabilität, Erweiterbarkeit und 
-hohe Leistung gewährleistet.
+### 8. Technische Exzellenz – Welche Technologien, Daten oder Algorithmen werden genutzt?
+Der Smart Recycle Bot basiert auf einer modernen, containerisierten Architektur mit FastAPI im Backend zur Verarbeitung von Text- und Bildanfragen sowie Streamlit im Frontend für die Benutzeroberfläche. Zur Verwaltung der Vektordaten kommt die Qdrant-Datenbank zum Einsatz, die semantische Ähnlichkeitssuchen ermöglicht. Für die Sprach- und Bildverarbeitung werden OpenAI-GPT-4o-mini-Modelle genutzt. Die Datenbasis besteht aus einem eigens aufbereiteten CSV-Datensatz, der Abfallarten und Entsorgungshinweise enthält. Die gesamte Anwendung ist modular aufgebaut, klar in Services getrennt und über REST-APIs miteinander verbunden. Alle Komponenten werden mithilfe von Docker containerisiert und über Kubernetes orchestriert, was eine einfache Skalierung, Wartung und Weiterentwicklung ermöglicht.
 
-9. Ethik, Transparenz und Inklusion – Wie stellen Sie Fairness, Transparenz und Sicherheit sicher?
+### 9. Ethik, Transparenz und Inklusion – Wie stellen Sie Fairness, Transparenz und Sicherheit sicher?
 Beim Smart Recycle Bot legen wir großen Wert auf verantwortungsvolle KI-Nutzung, Transparenz und Fairness. Das System 
 wurde so entwickelt, dass es keine persönlichen Daten speichert und ausschließlich Informationen über Abfallarten 
 verarbeitet. Damit wird der Datenschutz vollständig gewährleistet. Alle KI-Modelle liefern nachvollziehbare Ergebnisse, 
@@ -97,7 +89,7 @@ sein, sondern auch in Bildungseinrichtungen oder Gemeinden eingesetzt werden, um
 Herkunft oder Sprache – das Thema Recycling näherzubringen. So verbindet unser Projekt Technologie mit sozialer 
 Verantwortung.
 
-10. Zukunftsvision – Wie könnte das Projekt in 5–10 Jahren aussehen?  
+### 10. Zukunftsvision – Wie könnte das Projekt in 5–10 Jahren aussehen?  
 In den nächsten fünf bis zehn Jahren soll der Smart Recycle Bot zu einem umfassenden digitalen Recycling-Assistenten
 weiterentwickelt werden. Wir möchten die Erkennungsgenauigkeit der KI stetig verbessern und das System mit lokalen 
 Entsorgungsrichtlinien verbinden, damit Nutzer:innen ortsspezifische Informationen erhalten – zum Beispiel, wo der 

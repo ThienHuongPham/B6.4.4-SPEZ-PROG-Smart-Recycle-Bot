@@ -11,6 +11,8 @@ services:
     volumes:
       - qdrant_storage:/qdrant/storage
     restart: unless-stopped
+    networks:
+      - smart_recycle_net
 
   # ---------------- Qdrant collection ----------------
   qdrant-init:
@@ -25,6 +27,8 @@ services:
     depends_on:
       - qdrant
     restart: "no"
+    networks:
+      - smart_recycle_net
 
   # ---------------- Backend ----------------
   backend:
@@ -45,6 +49,8 @@ services:
       TOP_K: "1"
     depends_on:
       - qdrant
+    networks:
+      - smart_recycle_net
 
   # ---------------- Frontend ----------------
   frontend:
@@ -58,6 +64,12 @@ services:
       BACKEND_URL: "http://backend:8000"
     depends_on:
       - backend
+    networks:
+      - smart_recycle_net
 
 volumes:
   qdrant_storage:
+
+networks:
+  smart_recycle_net:
+    driver: bridge
