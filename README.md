@@ -1,6 +1,7 @@
 # ♻️ Smart Recycle Bot
 
 Link zum Code-Repository: https://github.com/ThienHuongPham/B6.4.4-SPEZ-PROG-Smart-Recycle-Bot.git
+Pitch: [pitch_audio.mp3](pitch_assets/pitch_audio.mp3)
 
 ## 🚀 Teil 1: Abgabe-Template - Inhaltliche Abgabe (40 Punkte)
 
@@ -76,7 +77,13 @@ zu vermitteln. So fördert der Smart Recycle Bot nicht nur Wissen, sondern auch 
 Ressourcen und unserer Umwelt.
 
 ### 8. Technische Exzellenz – Welche Technologien, Daten oder Algorithmen werden genutzt?
-Der Smart Recycle Bot basiert auf einer modernen, containerisierten Architektur mit FastAPI im Backend zur Verarbeitung von Text- und Bildanfragen sowie Streamlit im Frontend für die Benutzeroberfläche. Zur Verwaltung der Vektordaten kommt die Qdrant-Datenbank zum Einsatz, die semantische Ähnlichkeitssuchen ermöglicht. Für die Sprach- und Bildverarbeitung werden OpenAI-GPT-4o-mini-Modelle genutzt. Die Datenbasis besteht aus einem eigens aufbereiteten CSV-Datensatz, der Abfallarten und Entsorgungshinweise enthält. Die gesamte Anwendung ist modular aufgebaut, klar in Services getrennt und über REST-APIs miteinander verbunden. Alle Komponenten werden mithilfe von Docker containerisiert und über Kubernetes orchestriert, was eine einfache Skalierung, Wartung und Weiterentwicklung ermöglicht.
+Der Smart Recycle Bot basiert auf einer modernen, containerisierten Architektur mit FastAPI im Backend zur Verarbeitung
+von Text- und Bildanfragen sowie Streamlit im Frontend für die Benutzeroberfläche. Zur Verwaltung der Vektordaten kommt 
+die Qdrant-Datenbank zum Einsatz, die semantische Ähnlichkeitssuchen ermöglicht. Für die Sprach- und Bildverarbeitung 
+werden OpenAI-GPT-4o-mini-Modelle genutzt. Die Datenbasis besteht aus einem eigens aufbereiteten CSV-Datensatz, der 
+Abfallarten und Entsorgungshinweise enthält. Die gesamte Anwendung ist modular aufgebaut, klar in Services getrennt und 
+über REST-APIs miteinander verbunden. Alle Komponenten werden mithilfe von Docker containerisiert und über Kubernetes
+orchestriert, was eine einfache Skalierung, Wartung und Weiterentwicklung ermöglicht.
 
 ### 9. Ethik, Transparenz und Inklusion – Wie stellen Sie Fairness, Transparenz und Sicherheit sicher?
 Beim Smart Recycle Bot legen wir großen Wert auf verantwortungsvolle KI-Nutzung, Transparenz und Fairness. Das System 
